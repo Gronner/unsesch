@@ -19,19 +19,34 @@ leptos_axum = { version = "0.8.0", optional = true }
 leptos_meta = { version = "0.8.0" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 wasm-bindgen = { version = "=0.2.105", optional = true }
-thaw = { version = "0.4.8", features = ["ssr", "hydrate"] }
+thaw = { version = "0.4.8" }
+chrono = { version = "0.4.42", features = ["serde"] }
+diesel = { version = "2.3.3", features = ["postgres", "chrono"], optional = true }
+diesel_migrations = { version = "2.3.0", features = ["postgres"], optional = true }
+diesel-async = { version = "0.7.4", features = ["bb8", "migrations", "postgres"], optional = true }
+bb8 = { version = "0.9.0", optional = true }
+password-hash = { version = "0.5.0", features = ["std"], optional = true }
+config = { version = "0.15.19", optional = true }
+uuid-readable-rs = "0.1.6"
 
 [features]
 default = ["ssr", "hydrate"]
 hydrate = [
     "leptos/hydrate",
     "dep:wasm-bindgen",
+    "dep:console_error_panic_hook",
     "thaw/hydrate",
 ]
 ssr = [
     "dep:axum",
     "dep:tokio",
     "dep:leptos_axum",
+    "dep:diesel_migrations",
+    "dep:diesel",
+    "dep:diesel-async",
+    "dep:bb8",
+    "dep:password-hash",
+    "dep:config",
     "thaw/ssr",
     "leptos/ssr",
     "leptos_meta/ssr",

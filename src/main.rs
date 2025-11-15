@@ -9,9 +9,7 @@ async fn main() {
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use unsesch::app::*;
-
-    console_error_panic_hook::set_once();
+    use unsesch::{app::*, db};
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
@@ -19,13 +17,17 @@ async fn main() {
     // Generate the list of routes in your Leptos App
     let routes = generate_route_list(App);
 
+    let db_pool = db::get_connection_pool().await;
+    log!("Established database connection");
+
     let app = Router::new()
         .leptos_routes(&leptos_options, routes, {
             let leptos_options = leptos_options.clone();
             move || shell(leptos_options.clone())
         })
         .fallback(leptos_axum::file_and_error_handler(shell))
-        .with_state(leptos_options);
+        .with_state(leptos_options)
+        .with_state(db_pool);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`
