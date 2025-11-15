@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Gronner <gronner@mailbox.org>
+#
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+
+node_modules
+playwright-report
+test-results
