@@ -19,7 +19,7 @@ leptos_axum = { version = "0.8.0", optional = true }
 leptos_meta = { version = "0.8.0" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 wasm-bindgen = { version = "=0.2.105", optional = true }
-thaw = { version = "0.4.8" }
+thaw = { version = "=0.5.0-beta" } # TODO: Switch to 5.0 when available, see Issue #2
 chrono = { version = "0.4.42", features = ["serde"] }
 diesel = { version = "2.3.3", features = ["postgres", "chrono"], optional = true }
 diesel_migrations = { version = "2.3.0", features = ["postgres"], optional = true }
@@ -28,6 +28,8 @@ bb8 = { version = "0.9.0", optional = true }
 password-hash = { version = "0.5.0", features = ["std"], optional = true }
 config = { version = "0.15.19", optional = true }
 uuid-readable-rs = "0.1.6"
+icondata = "0.6.0"
+serde = { version = "1.0.228", features = ["derive"] }
 
 [features]
 default = ["ssr", "hydrate"]
