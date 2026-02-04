@@ -8,24 +8,31 @@ use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+use thaw::{ssr::SSRMountStyleProvider, *};
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <meta charset="utf-8"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <AutoReload options=options.clone() />
-                <HydrationScripts options/>
-                <MetaTags/>
-            </head>
-            <body>
-                <App/>
-            </body>
-        </html>
+        <SSRMountStyleProvider>
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <AutoReload options=options.clone() />
+                    <HydrationScripts options />
+                    <MetaTags />
+                </head>
+                <body>
+                    <App />
+                </body>
+            </html>
+        </SSRMountStyleProvider>
     }
 }
+
+use crate::pages::Homepage;
+use crate::pages::RoomPlan;
+use crate::pages::Schedule;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -35,31 +42,19 @@ pub fn App() -> impl IntoView {
     view! {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/unsesch.css"/>
+        <Stylesheet id="leptos" href="/pkg/unsesch.css" />
 
         // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="Unsesch: The Unconference Session Scheduler" />
 
-        // content for this welcome page
-        <Router>
-            <main>
+        <ConfigProvider>
+            <Router>
                 <Routes fallback=|| "Page not found.".into_view()>
-                    <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=StaticSegment("") view=Homepage />
+                    <Route path=StaticSegment("schedule") view=Schedule />
+                    <Route path=StaticSegment("room_plan") view=RoomPlan />
                 </Routes>
-            </main>
-        </Router>
-    }
-}
-
-/// Renders the home page of your application.
-#[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let count = RwSignal::new(0);
-    let on_click = move |_| *count.write() += 1;
-
-    view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+            </Router>
+        </ConfigProvider>
     }
 }

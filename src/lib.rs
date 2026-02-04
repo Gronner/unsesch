@@ -3,8 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 pub mod app;
+mod components;
 #[cfg(feature = "ssr")]
 pub mod db;
+mod pages;
 
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
